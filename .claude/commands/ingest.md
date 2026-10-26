@@ -13,7 +13,7 @@ Follow CLAUDE.md. Steps:
    - PDFs: use the Read tool with `pages` (20 pages at a time for big files).
    - Images and slide screenshots: Read them directly.
    - `.md` / `.txt`: read them directly.
-   - `.pptx` / `.docx`: extract the text with `python3 -c` using the `zipfile` module (slides: `ppt/slides/slide*.xml`; docs: `word/document.xml`), stripping XML tags. If that fails, ask the user to export to PDF.
+   - `.pptx` / `.docx`: these are zip files of XML (slides: `ppt/slides/slide*.xml`; docs: `word/document.xml`). Try, in order: (a) a Python one-liner with `zipfile` via `python3`, `python` or `py`; (b) `unzip -p <file> 'ppt/slides/*.xml'` (macOS, Linux, Git Bash); (c) on Windows, PowerShell `Expand-Archive` to a temp folder in the scratchpad, then Read the XML. Strip the tags and keep the text. If none of these work, ask the user to export the file to PDF. That always works, because Read handles PDFs natively.
    - Note the source file and page or slide for each idea.
 
 3. **Write `notes/<course>/<unit>.md`** with this structure:
@@ -53,7 +53,7 @@ Follow CLAUDE.md. Steps:
    - Fronts are one question. Backs are short (1–3 sentences) but complete.
    - IDs: `<course>-<unit>-NNN`. If the file already exists, **keep existing cards and IDs** and only append new cards with the next numbers. Edit a card's text only if it was wrong.
 
-5. Validate the JSON with `python3 -m json.tool`.
+5. Read the JSON back and check it's valid (CLAUDE.md §1b).
 
 6. **Report briefly:** number of concepts, number of cards by type, the 3 trickiest-looking concepts, and anything flagged as unclear. Suggest `/learn <first concept>` or `/session` next.
 

@@ -32,13 +32,13 @@ Challenges live in `progress/versus/<YYYY-MM-DD>-<slug>.json` so both people ans
 3. Look in `progress/versus/` for an open challenge that the current user **hasn't** answered yet.
    - **One exists:** say "<friend> challenged you on <scope>. Their score is hidden until you finish." Run it.
    - **None:** create a new challenge. Mix MCQ, short answer and one calculation, spread across concepts, with **equal difficulty for both people** (don't weight toward either person's weak spots). Save the file *before* asking question 1.
-4. **Run it:** one question at a time, timing with `date +%s`. **No feedback until the end** (so it stays fair and can't be spoiled). Then grade, show the score, and give the correct answers with short explanations. Save their entry under `results`. Update their own progress file as usual (concept stats, mistakes, XP: +10 per correct, +3 per attempt, +15 for completing a versus; log `mode: "versus"`).
+4. **Run it:** one question at a time, timing it per CLAUDE.md §1b (optional). **No feedback until the end** (so it stays fair and can't be spoiled). Then grade, show the score, and give the correct answers with short explanations. Save their entry under `results`. Update their own progress file as usual (concept stats, mistakes, XP: +10 per correct, +3 per attempt, +15 for completing a versus; log `mode: "versus"`).
 5. **Compare** (only if both have results):
    - Head-to-head: score and time for each, and the winner (time breaks a tie).
    - A per-question grid showing who got what (✅/❌), and the questions *both* missed (worth a `/learn`).
    - A season view from both progress files (read-only for the other person): total XP, level, streak, overall accuracy, and versus wins/losses across all `progress/versus/*.json`.
    - Keep the trash talk light and short.
    If the friend hasn't played yet, say so and suggest committing and pushing so they can.
-6. Offer to sync: `git add progress/versus/ progress/<name>.json && git commit -m "<name>: versus <id>" && git pull --rebase && git push`.
+6. Offer to sync, running each step as its own command: `git add progress/versus/ progress/<name>.json`, then `git commit -m "<name>: versus <id>"`, then `git pull --rebase`, then `git push`.
 
 Never edit the other person's progress file, and never change their `results` entry.

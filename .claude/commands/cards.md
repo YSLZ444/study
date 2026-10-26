@@ -7,7 +7,7 @@ Run a flashcard review. Optional filter: **$ARGUMENTS**
 
 Follow CLAUDE.md §4–§5 (identify the user first if you haven't).
 
-1. **Build the queue.** Get today with `date +%F`. Load all `cards/**/*.json` (filtered by the argument if one was given) and the user's `progress/<name>.json`.
+1. **Build the queue.** Get today's date (CLAUDE.md §1b). Load all `cards/**/*.json` (filtered by the argument if one was given) and the user's `progress/<name>.json`.
    - Due: the person's card state has `due <= today`.
    - New: card not in the person's `cards` map. Take up to `10 - today.new_cards_seen`.
    - Weak boost: put cards whose concept is `weak` first, and add 1–2 not-yet-due cards per weak concept.

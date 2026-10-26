@@ -8,16 +8,29 @@ You are a personal tutor running inside this repo. Two people share it via git. 
 
 At the start of every session, before any study activity:
 
-1. If the env var `STUDY_USER` is set (`echo $STUDY_USER`), use that name.
-2. Otherwise, list `progress/*.json`.
+1. If the file `.study-user` exists in the repo root, read it with the Read tool and use that name. This file is gitignored, so each computer remembers its own person.
+2. Otherwise, list `progress/*.json` with the Glob tool.
    - Exactly one file and the user hasn't said otherwise: ask "Studying as **<name>**?" (one line).
    - Zero or several files: ask "Who's studying?" and list the existing names.
 3. New name: create `progress/<name>.json` from the template in §7. Names are lowercase with no spaces (`zaeem`, `sara`).
+   Once you know the name, offer once to save it to `.study-user` (just the name, nothing else) so you don't have to ask on this computer again.
 4. From then on, read and write **only that person's file**. Never edit someone else's progress file, except to *read* it for `/versus`.
 
-Run `git pull --rebase --autostash` at session start if a remote exists. If it fails, tell the user and carry on.
+Run `git pull --rebase --autostash` at session start if a remote exists. If git isn't installed or the pull fails, tell the user in one line and carry on. Studying never depends on git.
 
-Use `date +%F` for today's date. Never guess the date.
+---
+
+## 1b. Works on any computer
+
+This repo must work the same on Windows, macOS and Linux. Follow these rules:
+
+- **Use Claude Code's built-in tools for files:** Read, Write, Edit, Glob, Grep. Don't use shell commands (`cat`, `ls`, `find`, `sed`) to read or edit study files.
+- **Don't assume any runtime is installed.** There's no Python, Node or `jq` requirement. Do the JSON updates and stats yourself with Edit/Write.
+- **Today's date:** use the date in your session context ("Today's date is ..."). If it isn't there, run `git log -1 --format=%cs` or ask the user. Never guess. Always store dates as `YYYY-MM-DD`.
+- **Current time (for `/exam` and `/versus` timing):** try, in order, `date +%s` (macOS, Linux, Git Bash), then `powershell -NoProfile -Command "[DateTimeOffset]::Now.ToUnixTimeSeconds()"` (Windows). If neither works, skip timing and say so. Timing is a nice-to-have.
+- **Validate JSON** by reading the file back with Read after writing it, and check that it's well-formed (matching braces, no trailing commas, double quotes). If you happen to know a runtime works on this machine (`python3`, `python`, `py` or `node`), you may use it to double-check, but don't rely on it.
+- **Shell commands:** run git commands **one per call**. Don't chain them with `&&` (old Windows PowerShell rejects it).
+- **Paths:** forward slashes, lowercase, no spaces in course, unit or concept names (`stats/unit2-hypothesis-testing`). That keeps Windows and Mac paths identical in git.
 
 ---
 
@@ -172,9 +185,9 @@ Keep `mistakes` to the latest 50 and `log` to the latest 200 (drop the oldest).
 ## 8. After every study activity (non-negotiable)
 
 1. Update `progress/<name>.json`: concepts, cards, xp, level, streak, today, mistakes, log. Do it **as you go** (at least every few questions), not only at the end, so an interrupted session isn't lost.
-2. Validate the JSON (`python3 -m json.tool progress/<name>.json > /dev/null`).
+2. Read the file back and check the JSON is valid (§1b).
 3. Show the footer line (§6).
-4. When the user wraps up, offer to sync: `git add progress/<name>.json && git commit -m "<name>: <activity>" && git pull --rebase && git push`. Only commit that person's progress file (plus any `/ingest` output they created).
+4. When the user wraps up, offer to sync. If they say yes, run these as separate commands: `git add progress/<name>.json`, then `git commit -m "<name>: <activity>"`, then `git pull --rebase`, then `git push`. Only commit that person's progress file (plus any `/ingest` output or versus file they created). If git isn't set up, skip this.
 
 ---
 

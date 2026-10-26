@@ -1,6 +1,6 @@
 # Study Tutor (runs in Claude Code)
 
-A study system with no app: Claude Code is the tutor, slash commands are the interface, and JSON and Markdown files in this repo hold everything. Tutor rules live in `CLAUDE.md`.
+A study system with no app: Claude Code is the tutor, slash commands are the interface, and plain JSON and Markdown files hold everything. It works the same on **Windows, macOS and Linux**. You don't need to install Python, Node or anything else beyond Claude Code (and Git if you want to share). Tutor rules live in `CLAUDE.md`.
 
 ## How to use
 
@@ -9,6 +9,16 @@ A study system with no app: Claude Code is the tutor, slash commands are the int
 3. Start with `/session` every day. It picks due cards, weak spots and new concepts for you.
 4. Go deeper whenever you like: `/learn <topic>`, `/practice <unit>`, `/scenario <unit>`, `/quiz <unit>`, `/teachback <concept>`, `/exam <units>`, `/mnemonic <item>`.
 5. Check `/progress`, challenge your friend with `/versus`, and sync with git when you finish (Claude offers to do it).
+
+## Install (any computer)
+
+1. **Claude Code:** follow https://code.claude.com/docs (native installer for macOS, Linux and Windows; or use the desktop app or the VS Code / JetBrains extension).
+2. **Git** (only needed for sharing): macOS: `xcode-select --install`. Windows: https://git-scm.com (this also gives Claude Code a Bash shell). Linux: your package manager.
+3. Open this folder in Claude Code (`claude` in a terminal here, or open the folder in the desktop app or your IDE). Claude asks your name the first time and offers to remember it on that computer (saved in `.study-user`, which isn't shared).
+
+Tips:
+- Keep course, unit and file names lowercase with no spaces (`unit2-hypothesis-testing`). That way paths match on every OS.
+- PDFs work best. `.pptx` and `.docx` usually work. If one doesn't, export it to PDF.
 
 ## Layout
 
@@ -26,27 +36,37 @@ Card content is shared, but each person's spaced-repetition schedule lives in th
 
 ## Git setup (two people)
 
-**Owner (once):**
-```bash
-git remote add origin https://github.com/<you>/study.git   # create an empty private repo first
+Run each line on its own. These work in Terminal, PowerShell, cmd and Git Bash.
+
+**Owner (once):** create an empty private repo on GitHub, then in this folder:
+```
+git remote add origin https://github.com/<you>/study.git
 git push -u origin main
 ```
 Then on GitHub, go to Settings → Collaborators and add your friend.
 
 **Friend (once):**
-```bash
-git clone https://github.com/<you>/study.git && cd study
-claude          # then say your name when asked, or run: export STUDY_USER=yourname
+```
+git clone https://github.com/<you>/study.git
+cd study
+claude
 ```
 
 **Every study session:**
-```bash
-git pull --rebase                 # get new materials, cards, and challenges
-# ...study in Claude Code...
-git add -A && git commit -m "<name>: study session" && git pull --rebase && git push
 ```
+git pull --rebase
+   (study in Claude Code)
+git add -A
+git commit -m "<name>: study session"
+git pull --rebase
+git push
+```
+Or just say "sync" at the end and Claude runs these for you.
 
 Ground rules that prevent merge conflicts:
 - Only edit your own `progress/<name>.json`.
 - Agree on who runs `/ingest` for a given unit, or pull first. Re-running it keeps existing card IDs, so it's safe.
+- Line endings are normalised by `.gitattributes`, so Windows and Mac users won't clash.
 - Big PDFs are fine. If the repo gets over about 1 GB, consider Git LFS (`git lfs track "*.pdf"`).
+
+No git? It still works on one computer. You just won't share progress or play `/versus` asynchronously (hot-seat on one machine still works).

@@ -7,7 +7,7 @@ Show the progress dashboard for: **$ARGUMENTS** (default: the current user; iden
 
 Read-only. **Do not modify any files and do not award XP.**
 
-Get today's date with `date +%F`. Load the person's progress file plus all `cards/**/*.json` and `notes/**/*.md`. You may compute the numbers with a short `python3 -c` script for accuracy.
+Get today's date (CLAUDE.md §1b). Load the person's progress file plus all `cards/**/*.json` and `notes/**/*.md` with Read and Glob. Compute the numbers yourself and double-check the arithmetic. Don't depend on Python or any other runtime.
 
 Display compactly, in this order:
 

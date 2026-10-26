@@ -1,0 +1,8 @@
+# Same line endings on Windows, macOS and Linux (prevents noisy diffs and merge conflicts)
+* text=auto eol=lf
+*.pdf  binary
+*.pptx binary
+*.docx binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
